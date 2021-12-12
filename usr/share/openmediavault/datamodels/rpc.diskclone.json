@@ -1,0 +1,25 @@
+[{
+	"type": "rpc",
+	"id": "rpc.diskclone.doclone",
+	"params": {
+		"type": "object",
+		"properties": {
+			"sharedfolderref": {
+				"type": "string",
+				"oneOf": [{
+					"type": "string",
+					"format": "uuidv4"
+				},{
+					"type": "string",
+					"maxLength": 0
+				}],
+				"required": true
+			},
+			"method": {
+				"type": "string",
+				"enum": ["rsync","fsarchiver","borg","dd","ddfull"],
+				"required": true
+			}
+		}
+	}
+}]

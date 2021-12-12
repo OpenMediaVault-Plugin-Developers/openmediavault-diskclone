@@ -1,0 +1,40 @@
+#!/bin/bash
+
+src="${1}"
+dst="${2}"
+method="${3}"
+
+echo "source :: '${src}'"
+echo "destination :: '${dst}'"
+echo "method :: '${method}'"
+
+if [ ! -e "${src}" ]; then
+  echo "Source ${src} does not exist! Exiting."
+  exit 1
+fi
+
+if [ ! -e "${dst}" ]; then
+  echo "Destination ${dst} does not exist! Exiting."
+  exit 2
+fi
+
+if [ -z "${method}" ]; then
+  echo "No method specified! Exiting."
+  exit 3
+fi
+
+# perform clone based on method selected
+case ${method} in
+    dd)
+        echo "Using dd..."
+        dd if=${src} of=${dst} bs=1M conv=fdatasync,noerror status=progress
+        sync
+        sync
+        ;;
+
+    fsarchiver)
+        echo "Using FSArchiver..."
+        ;;
+esac
+
+exit 0

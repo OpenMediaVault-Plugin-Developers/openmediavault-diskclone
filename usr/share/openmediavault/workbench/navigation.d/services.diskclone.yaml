@@ -1,0 +1,7 @@
+version: "1.0"
+type: navigation-item
+data:
+  path: "services.diskclone"
+  text: _("Disk Clone")
+  icon: "mdi:content-save-all-outline"
+  url: "/services/diskclone"

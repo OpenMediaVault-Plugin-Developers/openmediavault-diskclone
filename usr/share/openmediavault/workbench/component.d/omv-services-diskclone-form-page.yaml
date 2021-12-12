@@ -1,0 +1,73 @@
+version: "1.0"
+type: component
+data:
+  name: omv-services-diskclone-form-page
+  type: formPage
+  config:
+    request:
+      service: DiskClone
+    fields:
+      - type: select
+        name: source
+        label: _('Source')
+        valueField: canonicaldevicefile
+        textField: canonicaldevicefile
+        store:
+          proxy:
+            service: DiskMgmt
+            get:
+              method: enumerateDevices
+          sorters:
+              dir: asc
+              prop: canonicaldevicefile
+        validators:
+          required: true
+      - type: select
+        name: dest
+        label: _('Destination')
+        valueField: devicefile
+        textField: description
+        store:
+          proxy:
+            service: FileSystemMgmt
+            get:
+              method: getCandidatesBg
+              task: true
+          sorters:
+              dir: asc
+              prop: devicefile
+        validators:
+          required: true
+          custom:
+            - constraint:
+                operator: ne
+                arg0:
+                  prop: source
+                arg1:
+                  prop: dest
+              errorData: _('A different device must be selected.')
+      - type: select
+        name: method
+        label: _("Method")
+        value: "dd"
+        store:
+          data:
+            - ["dd", _("dd")]
+    buttons:
+      - text: _("Clone")
+        confirmationDialogConfig:
+          template: confirmation
+          message: _("This will overwrite the destination disk.  Are you sure you want to do this?")
+        execute:
+          type: taskDialog
+          taskDialog:
+            config:
+              title: _("Starting disk clone ...")
+              request:
+                service: DiskClone
+                method: doClone
+                params:
+                  source: "{{ source }}"
+                  dest: "{{ dest }}"
+                  method: "{{ method }}"
+            successUrl: /services
