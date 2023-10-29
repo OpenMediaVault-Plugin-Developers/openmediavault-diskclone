@@ -3,13 +3,13 @@ Section: misc
 XB-Plugin-Section: backup
 Priority: optional
 Maintainer: OpenMediaVault Plugin Developers <plugins@omv-extras.org>
-Build-Depends: debhelper (>= 12)
+Build-Depends: debhelper (>= 13)
 Standards-Version: 4.3.0
 Homepage: http://omv-extras.org/
 
 Package: openmediavault-diskclone
 Architecture: all
 Depends: fsarchiver,
-         openmediavault (>=6)
+         openmediavault (>=7)
 Description: disk clone plugin for OpenMediaVault.
  This plugin will clone one disk to another.
